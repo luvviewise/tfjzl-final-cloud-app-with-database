@@ -68,6 +68,7 @@ class Course(models.Model):
                "Description: " + self.description
 
 
+
 # Question model
 class Question(models.Model): 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
