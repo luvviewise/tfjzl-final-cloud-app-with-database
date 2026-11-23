@@ -70,18 +70,20 @@ class Course(models.Model):
 
 
 # Question model
-class Question(models.Model): 
+class Question(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    content = models.CharField(max_length=200) 
+    content = models.CharField(max_length=200)
     grade = models.IntegerField(default=50)
 
-def str(self):
-     return "Question: " + self.content
+    # Fixed: Added double underscores for the standard Django string representation
+    def __str__(self):
+        return "Question: " + self.content
 
-	# method to calculate if the learner gets the score of the question
+    # Method to calculate if the learner gets the score of the question
     def is_get_score(self, selected_ids):
         all_answers = self.choice_set.filter(is_correct=True).count()
         selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
+        
         if all_answers == selected_correct:
             return True
         else:
@@ -132,4 +134,4 @@ class Enrollment(models.Model):
 
 class Submission(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    choices = models.ManyToManyField(Choice)
+    choices = models.ManyToManyField("Choice")
