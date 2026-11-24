@@ -77,7 +77,7 @@ class Question(models.Model):
 
     # Fixed: Added double underscores for the standard Django string representation
     def __str__(self):
-        return "Question: " + self.content
+        return "Question: " + self.question_text
 
     # Method to calculate if the learner gets the score of the question
     def is_get_score(self, selected_ids):
@@ -104,7 +104,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return "Choice:" + self.content
+        return "Choice:" + self.choice_text
 
 # Enrollment model
 # <HINT> Once a user enrolled a class, an enrollment entry should be created between the user and course
@@ -135,3 +135,6 @@ class Enrollment(models.Model):
 class Submission(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField("Choice")
+
+    def __str__(self):
+        return f"Submission {self.id} - {self.enrollment}"
